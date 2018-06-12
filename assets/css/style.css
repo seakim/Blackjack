@@ -1,0 +1,193 @@
+body {
+    background: gray;
+}
+.deck {
+    display: inline-block;
+    margin: 30px 0;
+}
+.hands_area {
+    overflow: hidden;
+    width: auto;
+    height: 130px;
+    margin: 10px;
+    float:left;
+}
+.cards {
+    overflow: hidden;
+    width: 84px;
+    height: 110px;
+    margin: 10px;
+    float:left;
+}
+
+/* sprites does not work*/
+#home {
+    width: 46px;
+    height: 44px;
+    background: url("assets/images/deck.png") 0 0;
+}
+#next {
+    width: 43px;
+    height: 44px;
+    background: url(assets/images/deck.png) -91px 0;
+}
+/* sprites end */
+
+/* card img */
+#c1 {
+    transform: translate(-46px, 0);
+}
+#c2 {
+    transform: translate(-136px,0);
+}
+#c3 {
+    transform: translate(-226px,0);
+}
+#c4 {
+    transform: translate(-316px,0);
+}
+#c5 {
+    transform: translate(-406px,0);
+}
+#c6 {
+    transform: translate(-496px,0);
+}
+#c7 {
+    transform: translate(-587px,0);
+}
+#c8 {
+    transform: translate(-677px,0);
+}
+#c9 {
+    transform: translate(-767px,0);
+}
+#c10 {
+    transform: translate(-857px,0);
+}
+#c11 {
+    transform: translate(-947px,0);
+}
+#c12 {
+    transform: translate(-1037px,0);
+}
+#c13 {
+    transform: translate(-1128px,0);
+}
+#s1 {
+    transform: translate(-46px,-113px);
+}
+#s2 {
+    transform: translate(-136px,-113px);
+}
+#s3 {
+    transform: translate(-226px,-113px);
+}
+#s4 {
+    transform: translate(-316px,-113px);
+}
+#s5 {
+    transform: translate(-406px,-113px);
+}
+#s6 {
+    transform: translate(-496px,-113px);
+}
+#s7 {
+    transform: translate(-587px,-113px);
+}
+#s8 {
+    transform: translate(-677px,-113px);
+}
+#s9 {
+    transform: translate(-767px,-113px);
+}
+#s10 {
+    transform: translate(-857px,-113px);
+}
+#s11 {
+    transform: translate(-947px,-113px);
+}
+#s12 {
+    transform: translate(-1037px,-113px);
+}
+#s13 {
+    transform: translate(-1128px,-113px);
+}
+#h1 {
+    transform: translate(-46px,-226px);
+}
+#h2 {
+    transform: translate(-136px,-226px);
+}
+#h3 {
+    transform: translate(-226px,-226px);
+}
+#h4 {
+    transform: translate(-316px,-226px);
+}
+#h5 {
+    transform: translate(-406px,-226px);
+}
+#h6 {
+    transform: translate(-496px,-226px);
+}
+#h7 {
+    transform: translate(-587px,-226px);
+}
+#h8 {
+    transform: translate(-677px,-226px);
+}
+#h9 {
+    transform: translate(-767px,-226px);
+}
+#h10 {
+    transform: translate(-857px,-226px);
+}
+#h11 {
+    transform: translate(-947px,-226px);
+}
+#h12 {
+    transform: translate(-1037px,-226px);
+}
+#h13 {
+    transform: translate(-1128px,-226px);
+}
+#d1 {
+    transform: translate(-46px,-340px);
+}
+#d2 {
+    transform: translate(-136px,-340px);
+}
+#d3 {
+    transform: translate(-226px,-340px);
+}
+#d4 {
+    transform: translate(-316px,-340px);
+}
+#d5 {
+    transform: translate(-406px,-340px);
+}
+#d6 {
+    transform: translate(-496px,-340px);
+}
+#d7 {
+    transform: translate(-587px,-340px);
+}
+#d8 {
+    transform: translate(-677px,-340px);
+}
+#d9 {
+    transform: translate(-767px,-340px);
+}
+#d10 {
+    transform: translate(-857px,-340px);
+}
+#d11 {
+    transform: translate(-947px,-340px);
+}
+#d12 {
+    transform: translate(-1037px,-340px);
+}
+#d13 {
+    transform: translate(-1128px,-340px);
+}
+/* card img end */

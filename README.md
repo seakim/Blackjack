@@ -27,11 +27,20 @@ First time building a game with JQuery.
 
 
 
-pseudo code: game algorithm
+1. Set a deck (52 cards); deck[i][j] 
+where   j = 1, and y=0 -> spades, y=1 -> hearts, y=2 -> diamonds, y=3 -> clubs,
+        j = 0, and x=0 -> A, x=1 -> 2, ..., x=8 -> 9, x=9 -> 10, x=9 -> J, x=9 -> Q, x=9 -> K;
+
+    deck = [[0,0],[0,1],[0,2],[0,3],[1,0], ..., [x,y], ..., [9,3]];
 
 
 2. Set 8 decks shuffled (416 cards); newDecks[i][j]
+    // old deck;
+    8.times do { oldDecks += deck }
 
+
+
+/////
     // pop from oldDecks, and push to newDecks
     for (var i = 0; i < 416; i++) {
 
@@ -41,6 +50,7 @@ pseudo code: game algorithm
         newDecks.push(oldDecks[random415].pop());
     }
     // newDecks has 416 cards shuffled.
+
 
 3. Set Player class
     var Player = {
