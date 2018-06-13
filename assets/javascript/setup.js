@@ -24,6 +24,7 @@ $(document).ready(function () {
         }
     }
     // console.log(unshuffledDeck);
+    //// unshuffledDeck is complete;
 
 
     // 8 decks shuffled; shuffledDeck[i][0][j]
@@ -32,6 +33,8 @@ $(document).ready(function () {
         var rand = Math.floor(Math.random() * 416 - i);
         shuffledDeck.push(unshuffledDeck.splice(rand, 1));
     }
+    //// shuffledDeck is complete;
+
 
     // test code for shuffled deck;
     var c1 = 0,
@@ -52,54 +55,57 @@ $(document).ready(function () {
     // console.log(c1);
     // console.log(c2);
     // console.log(c3);
+    ////  test ends
 
 
-
-    // Dealing first cards
-    // Dealing second cards; second card for dealer is face down;
-    
+    // Dealing hands
     function deal() {
-        for (var i = 0; i < $(".hands_area").length; i++) {
+        for (var i = 0; i < $(".hands_area").length * 2; i++) {
             dealtCard = shuffledDeck.shift()[0];
 
-            // get the card value
-            // console.log(dealtCard[0]);
-            // cardValue += dealtCard[0] + 1;
-            // $(".hands_area:eq(" + i + ")").attr("value", cardValue);
-
             // display cards
+            // <div class="cards"><img id="dk" src="assets/images/deck.png" /></div> 
             var cardH = "<div class='cards'><img id='"
             if (dealtCard[1] === 0) {
                 cardH += "c";
             } else if (dealtCard[1] === 1) {
-                cardH +="s";
+                cardH += "s";
             } else if (dealtCard[1] === 2) {
-                cardH +="h";
+                cardH += "h";
             } else if (dealtCard[1] === 3) {
                 cardH += "d";
             }
             cardH += (dealtCard[0] + 1);
             cardH += "' src='assets/images/deck.png' /></div>";
             console.log(cardH);
-            $(".hands_area:eq(" + i + ")").delay(2000).append(cardH);
+            //
+
+            // setTimeout WORKS!!
+            setTimeout(function(i, cardH) {
+                $(".hands_area:eq(" + (i%$(".hands_area").length) + ")").append(cardH);
+            }, 200*i, i, cardH);
+
+            // second card for dealer is face down;
+
+            // get the card value
+            // console.log(dealtCard[0]);
+            // cardValue += dealtCard[0] + 1;
+            // $(".hands_area:eq(" + i + ")").attr("value", cardValue);
         }
     }
-    
-    function gameStart() {
-        deal();
+
+    $(".deal").on("click", function () {
         deal();
         console.log(shuffledDeck.length);
-    }
-    $(".deal").on("click", function (){
-        gameStart();
     });
 
 
-        // <div class='card1 cards'>
-        //     <img id="d13" src="assets/images/deck.png" />
-        // </div>
-        // deal first card
 
+
+
+
+
+    
 
 
 
