@@ -62,27 +62,12 @@ var decks = {
 // decks.testing();
 
 
-var getCardValue = {
-    value: function (arr) {
-        if (arr[1] === 0) {
-            return 11;
-         } else if (arr[1] < 10) {
-             return arr[1] + 1;
-         } else {
-            return 10;
-         }
-    }
-}
-// console.log(getCardValue.value([0,10]));
-// console.log(getCardValue.value([0,0]));
-
-
 var playerSettings = {
     players: [],
     setPlayers: function(numPlayer, budget) {
         for (var i = 0; i < numPlayer; i++) {
             // this.players["player"+i] = {name: "player"+i, budget: budget, hand: [], handValue: 0, betAmt: 0};
-            this.players[i] = {name: "player"+i, budget: budget, hand: [], handValue: 0, betAmt: 0};
+            this.players[i] = {name: "player"+i, budget: budget, hand: [], handValue: 0, betAmt: 0, blackjack: false};
         }
         return this.players;
     }
@@ -91,20 +76,37 @@ var playerSettings = {
 
 
 var blackJack = {
-    // second card for dealer is face down;
+    // card setup
+    getCardValue: function (arr) {
+        if (arr[1] === 0) {
+            return 11;
+         } else if (arr[1] < 10) {
+             return arr[1] + 1;
+         } else {
+            return 10;
+         }
+    },
+    cards: decks.shuffled(),
+
+    // player setup
     numPlayer: 3,
     playerBudget: 1000,
-    table: null,
-    cards: decks.shuffled(),
-    dealer: {name: "dealer", hand: [], handValue: 0},
-    players: playerSettings.setPlayers(3,1000),
+
+
+
+
+
+
+
+
+    dealer: {name: "dealer", hand: [], handValue: 0, blackjack: false},
+    table: playerSettings.setPlayers(3,1000),
     // players: playerSettings.setPlayers(this.numPlayer,this.playerBudget),
     setTable: function() {
-        this.players.push(this.dealer);
-        this.table = this.players;
+        this.table.push(this.dealer);
         return this.table;
     },
-    // burn the first card
+    // ( used under deal() )
     burnFirstCard: function() {
         this.cards.shift();
     },
@@ -112,29 +114,55 @@ var blackJack = {
     deal: function() {
         // if cards.length <= 52, reshuffle
         if (this.cards.length <= 52) {
-            this.cards = decks.shuffled()
+            this.cards = decks.shuffled();
         }
+        // if new tray, burn the first card
+        if (this.cards.length === 52 * decks.numOfDecks) {
+            this.burnFirstCard();
+        }
+
+        //*** this would need setTimeOut to implement motion  
         // Dealing first cards
         for (var i = 0; i < this.table.length; i++) {
             this.table[i].hand.push(this.cards.shift());
-            this.table[i].handValue += getCardValue.value(this.table[i].hand[0]);
+            this.table[i].handValue += this.getCardValue(this.table[i].hand[0]);
         }
         // Dealing second cards
-        for (var i = 0; i < this.table.length - 1 ; i++) {
+        for (var i = 0; i < this.table.length; i++) {
             this.table[i].hand.push(this.cards.shift());
-            this.table[i].handValue += getCardValue.value(this.table[i].hand[1]);
+            this.table[i].handValue += this.getCardValue(this.table[i].hand[1]);
+        //***
+
+            // set blackjack condition
+            if (this.table[i].handValue === 21) {
+                this.table[i].blackjack = true;
+            }
+        }
+        // set dealer blackjack
+        if (this.dealer.handValue === 21) {
+            this.dealer.blackjack = true;
         }
         // Dealer's second card face down
-
         // if dealer's first card is Ace, option to insurance
+        // Dealer's second card face up after all playerAction
+    },
+    bust: function () {
 
-        // Dealer's second card face up
-        this.table[this.table.length - 1].hand.push(this.cards.shift());
-        this.table[this.table.length - 1].handValue += getCardValue.value(this.table[this.table.length - 1].hand[1]);
+    },
+    payOut: function() {
+        if (this.table[playerAction.currentPlayer] !== this.table[table.length - 1]) {
+            if (this.table[playerAction.currentPlayer].blackjack === true) {
+                this.table[playerAction.currentPlayer].budget += this.table[playerAction.currentPlayer].betAmt * 2.5;
+
+            } else {
+                this.table[playerAction.currentPlayer].budget += this.table[playerAction.currentPlayer].betAmt * 2;
+            }
+        }
     }
 }
 
 var playerAction = {
+    currentPlayer: 0,
     bet: function() {
         budget -= betAmt;
     },
@@ -152,13 +180,13 @@ var playerAction = {
 
     },
     hit: function() {
-
-    },
-    stay: function() {
-
+        blackJack.table[this.currentPlayer].hand.push(this.cards.shift());
+        blackJack.table[this.currentPlayer].handValue += getCardValue.value(this.table[i].hand[0]);
     },
     stand: function() {
-
+        if (this.currentPlayer < blackJack.table.length) {
+            this.currentPlayer = (this.currentPlayer + 1);
+        }
     }
 }
 
@@ -166,26 +194,22 @@ var playerAction = {
 // Game Setup
 console.log(blackJack.cards.length);
 blackJack.setTable();
-
+blackJack.table;
 // Play Game
 var play = function () {
-    if (blackJack.cards.length === 52 * decks.numOfDecks) {
-        blackJack.burnFirstCard();
-    }
-
     blackJack.deal();
-    console.log(blackJack.table);
+    // console.log(blackJack.table);
     console.log(blackJack.cards.length);
 }
 
 play();
-console.log(blackJack.players);
-    
+console.log(blackJack.table);
+
+
+
 //     function deal() {
 //         for (var i = 0; i < $(".hands_area").length; i++) {
 //             dealtCard = shuffledDeck.shift()[0];
-
-
 //             // display cards
 //             var cardH = "<div class='cards'><img id='"
 //             if (dealtCard[1] === 0) {
@@ -204,24 +228,11 @@ console.log(blackJack.players);
 //         }
 //     }
     
-//     function gameStart() {
-//         deal();
-//         deal();
-//         console.log(shuffledDeck.length);
-//     }
-//     $(".deal").on("click", function (){
-//         gameStart();
-//     });
-
 
 //         // <div class='card1 cards'>
 //         //     <img id="d13" src="assets/images/deck.png" />
 //         // </div>
 //         // deal first card
-
-
-
-
 
 
 // });
