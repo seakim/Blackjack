@@ -55,8 +55,9 @@ $(document).ready(function () {
     // console.log(c1);
     // console.log(c2);
     // console.log(c3);
-    ////  test ends
+    //// checked shuffledDeck works properly; test ends;
 
+    // $(".dealer.cards").html("<div id='test'>test<div>");
 
     // Dealing hands
     function deal() {
@@ -64,7 +65,7 @@ $(document).ready(function () {
             dealtCard = shuffledDeck.shift()[0];
 
             // display cards
-            // <div class="cards"><img id="dk" src="assets/images/deck.png" /></div> 
+            // cardH ~= <div class="cards"><img id="d5" src="assets/images/deck.png" /></div> 
             var cardH = "<div class='cards'><img id='"
             if (dealtCard[1] === 0) {
                 cardH += "c";
@@ -85,6 +86,11 @@ $(document).ready(function () {
                 $(".hands_area:eq(" + (i%$(".hands_area").length) + ")").append(cardH);
             }, 200*i, i, cardH);
 
+            setTimeout(function() {
+                $(".dealer.cards").html("<div id='test'>test<div>");
+            }, 1400);
+            // $(".cards").html("<div id='test'>test<div>");
+            // "<img id='card_covered' src='assets/images/card_covered.jpg'"
             // second card for dealer is face down;
 
             // get the card value
@@ -105,7 +111,7 @@ $(document).ready(function () {
 
 
 
-    
+
 
 
 

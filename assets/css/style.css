@@ -19,6 +19,11 @@ body {
     margin: 10px;
     float:left;
 }
+#test {
+    position: absolute;
+    z-index: 5;
+}
+
 
 /* sprites does not work*/
 #home {
