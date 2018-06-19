@@ -1,120 +1,227 @@
 //
 // Sean Kim
 //
+// BlackJack
 
 
-// Setting up a set of suffled 8 decks to be ready to play
-$(document).ready(function () {
-
-    var unshuffledDeck = [],
-        shuffledDeck = [],
-        dealtCard = "";
-        cardValue = 0;
-    // Set a set of 8 decks (416 cards); unshuffledDeck[i][j]
-    for (var k = 0; k < 8; k++) {
-
-        // Set a deck (52 cards); deck[i][j] 
-        // where   j = 1, and y=0 -> spades, y=1 -> hearts, y=2 -> diamonds, y=3 -> clubs,
-        //         j = 0, and x=0 -> A, x=1 -> 2, ..., x=8 -> 9, x=9 -> 10, x=10 -> J, x=11 -> Q, x=12 -> K;
-        //         deck = [[0,0],[0,1],[0,2],[0,3],[1,0], ..., [x,y], ..., [12,3]];
-        for (var i = 0; i < 13; i++) {
-            for (var j = 0; j < 4; j++) {
-                unshuffledDeck.push([i, j]);
+var decks = {
+    numOfDecks: 6,  //total number of decks
+    // Set k decks (52 * k cards); deck of [x,y] * k
+    unshuffled: function () {
+        // unshuffledDeck[i][j]; where j = 0, x=0 -> spades, x=1 -> hearts, x=2 -> diamonds, x=3 -> clubs
+        // unshuffledDeck[i][j]; where j = 1, y=0 -> A, y=1 -> 2, ..., y=8 -> 9, y=9 -> 10, y=10 -> J, y=11 -> Q, y=12 -> K;
+        //         a deck = [[0,0],[0,1],[0,2],[0,3],[1,0], ..., [x,y], ..., [3,12]];
+        var unshuffledDeck = [];
+        for (var k = 0; k < this.numOfDecks; k++) {
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 13; j++) {
+                    unshuffledDeck.push([i, j]);
+                }
             }
         }
-    }
-    // console.log(unshuffledDeck);
-    //// unshuffledDeck is complete;
-
-
-    // 8 decks shuffled; shuffledDeck[i][0][j]
+        return unshuffledDeck;
+    },
+    shuffled: function () {
     // shuffledDeck = [ [  [x1,y1] ],[ [x2,y2] ],[ [x3,y3] ] ... [ [x,y] ] ]
-    for (var i = 0; i < 416; i++) {
-        var rand = Math.floor(Math.random() * 416 - i);
-        shuffledDeck.push(unshuffledDeck.splice(rand, 1));
-    }
-    //// shuffledDeck is complete;
 
+        var shuffledDeck = this.unshuffled();
 
-    // test code for shuffled deck;
-    var c1 = 0,
-        c2 = 0,
-        c3 = 0;
-    for (var i = 0; i < shuffledDeck.length; i++) {
-        // console.log(shuffledDeck[i][0][1]);
-        if (shuffledDeck[i][0][0] === 0) {
-            c1 += 1;
+        for (var i = shuffledDeck.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = shuffledDeck[i];
+            shuffledDeck[i] = shuffledDeck[j];
+            shuffledDeck[j] = temp;
         }
-        if (shuffledDeck[i][0][0] === 1) {
-            c2++;
-        }
-        if (shuffledDeck[i][0][0] === 12) {
-            c3++;
-        }
-    }
-    // console.log(c1);
-    // console.log(c2);
-    // console.log(c3);
-    //// checked shuffledDeck works properly; test ends;
+        return shuffledDeck;
+    },
+    // test code for shuffled deck; expect to see same number on each shape.
+    testing: function () {
+        var spade = 0,
+            heart = 0,
+            diamond = 0,
+            club = 0,
+            testingDeck = this.shuffled();
+            console.log(testingDeck[1][1]);
 
-    // $(".dealer.cards").html("<div id='test'>test<div>");
-
-    // Dealing hands
-    function deal() {
-        for (var i = 0; i < $(".hands_area").length * 2; i++) {
-            dealtCard = shuffledDeck.shift()[0];
-
-            // display cards
-            // cardH ~= <div class="cards"><img id="d5" src="assets/images/deck.png" /></div> 
-            var cardH = "<div class='cards'><img id='"
-            if (dealtCard[1] === 0) {
-                cardH += "c";
-            } else if (dealtCard[1] === 1) {
-                cardH += "s";
-            } else if (dealtCard[1] === 2) {
-                cardH += "h";
-            } else if (dealtCard[1] === 3) {
-                cardH += "d";
+        for (var i = 0; i < (testingDeck.length * (Math.floor(Math.random() * 3) + 1)); i++) {
+            if (testingDeck[i][0] === 0) {
+                spade += testingDeck[i][1];
+            } else if (testingDeck[i][0] === 1) {
+                heart += testingDeck[i][1];
+            } else if (testingDeck[i][0] === 2) {
+                diamond += testingDeck[i][1];
+            } else if (testingDeck[i][0] === 3) {
+                club += testingDeck[i][1];
             }
-            cardH += (dealtCard[0] + 1);
-            cardH += "' src='assets/images/deck.png' /></div>";
-            console.log(cardH);
-            //
-
-            // setTimeout WORKS!!
-            setTimeout(function(i, cardH) {
-                $(".hands_area:eq(" + (i%$(".hands_area").length) + ")").append(cardH);
-            }, 200*i, i, cardH);
-
-            setTimeout(function() {
-                $(".dealer.cards").html("<div id='test'>test<div>");
-            }, 1400);
-            // $(".cards").html("<div id='test'>test<div>");
-            // "<img id='card_covered' src='assets/images/card_covered.jpg'"
-            // second card for dealer is face down;
-
-            // get the card value
-            // console.log(dealtCard[0]);
-            // cardValue += dealtCard[0] + 1;
-            // $(".hands_area:eq(" + i + ")").attr("value", cardValue);
         }
+        console.log("spade: " + spade + ", heart: " + heart + ", diamond: " + diamond + ", club: " + club);
     }
 
-    $(".deal").on("click", function () {
-        deal();
-        console.log(shuffledDeck.length);
-    });
+}
+// console.log(decks.shuffled());
+// decks.testing();
+
+
+var getCardValue = {
+    value: function (arr) {
+        if (arr[1] === 0) {
+            return 11;
+         } else if (arr[1] < 10) {
+             return arr[1] + 1;
+         } else {
+            return 10;
+         }
+    }
+}
+// console.log(getCardValue.value([0,10]));
+// console.log(getCardValue.value([0,0]));
+
+
+var playerSettings = {
+    players: [],
+    setPlayers: function(numPlayer, budget) {
+        for (var i = 0; i < numPlayer; i++) {
+            // this.players["player"+i] = {name: "player"+i, budget: budget, hand: [], handValue: 0, betAmt: 0};
+            this.players[i] = {name: "player"+i, budget: budget, hand: [], handValue: 0, betAmt: 0};
+        }
+        return this.players;
+    }
+}
+// console.log(playerSettings.setPlayers(3,1000));
+
+
+var blackJack = {
+    // second card for dealer is face down;
+    numPlayer: 3,
+    playerBudget: 1000,
+    table: null,
+    cards: decks.shuffled(),
+    dealer: {name: "dealer", hand: [], handValue: 0},
+    players: playerSettings.setPlayers(3,1000),
+    // players: playerSettings.setPlayers(this.numPlayer,this.playerBudget),
+    setTable: function() {
+        this.players.push(this.dealer);
+        this.table = this.players;
+        return this.table;
+    },
+    // burn the first card
+    burnFirstCard: function() {
+        this.cards.shift();
+    },
+
+    deal: function() {
+        // if cards.length <= 52, reshuffle
+        if (this.cards.length <= 52) {
+            this.cards = decks.shuffled()
+        }
+        // Dealing first cards
+        for (var i = 0; i < this.table.length; i++) {
+            this.table[i].hand.push(this.cards.shift());
+            this.table[i].handValue += getCardValue.value(this.table[i].hand[0]);
+        }
+        // Dealing second cards
+        for (var i = 0; i < this.table.length - 1 ; i++) {
+            this.table[i].hand.push(this.cards.shift());
+            this.table[i].handValue += getCardValue.value(this.table[i].hand[1]);
+        }
+        // Dealer's second card face down
+
+        // if dealer's first card is Ace, option to insurance
+
+        // Dealer's second card face up
+        this.table[this.table.length - 1].hand.push(this.cards.shift());
+        this.table[this.table.length - 1].handValue += getCardValue.value(this.table[this.table.length - 1].hand[1]);
+    }
+}
+
+var playerAction = {
+    bet: function() {
+        budget -= betAmt;
+    },
+    insurance: function() {
+        // if player handValue !== 21,
+            // when dealer's faceCard === 'A', insurance is optional with (1/4) of betting amount
+    },
+    doubleDown: function() {
+        // player can hit Only once
+        budget -= betAmt;
+        betAmt *= 2;
+        hit();
+    },
+    split: function() {
+
+    },
+    hit: function() {
+
+    },
+    stay: function() {
+
+    },
+    stand: function() {
+
+    }
+}
+
+
+// Game Setup
+console.log(blackJack.cards.length);
+blackJack.setTable();
+
+// Play Game
+var play = function () {
+    if (blackJack.cards.length === 52 * decks.numOfDecks) {
+        blackJack.burnFirstCard();
+    }
+
+    blackJack.deal();
+    console.log(blackJack.table);
+    console.log(blackJack.cards.length);
+}
+
+play();
+console.log(blackJack.players);
+    
+//     function deal() {
+//         for (var i = 0; i < $(".hands_area").length; i++) {
+//             dealtCard = shuffledDeck.shift()[0];
+
+
+//             // display cards
+//             var cardH = "<div class='cards'><img id='"
+//             if (dealtCard[1] === 0) {
+//                 cardH += "c";
+//             } else if (dealtCard[1] === 1) {
+//                 cardH +="s";
+//             } else if (dealtCard[1] === 2) {
+//                 cardH +="h";
+//             } else if (dealtCard[1] === 3) {
+//                 cardH += "d";
+//             }
+//             cardH += (dealtCard[0] + 1);
+//             cardH += "' src='assets/images/deck.png' /></div>";
+//             console.log(cardH);
+//             $(".hands_area:eq(" + i + ")").delay(2000).append(cardH);
+//         }
+//     }
+    
+//     function gameStart() {
+//         deal();
+//         deal();
+//         console.log(shuffledDeck.length);
+//     }
+//     $(".deal").on("click", function (){
+//         gameStart();
+//     });
+
+
+//         // <div class='card1 cards'>
+//         //     <img id="d13" src="assets/images/deck.png" />
+//         // </div>
+//         // deal first card
 
 
 
 
 
 
-
-
-
-
-
-
-
-});
+// });
