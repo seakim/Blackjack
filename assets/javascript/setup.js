@@ -62,16 +62,15 @@ var decks = {
 // decks.testing();
 
 
-var playerSettings = {
-    players: [],
-    setPlayers: function(numPlayer, budget) {
-        for (var i = 0; i < numPlayer; i++) {
-            // this.players["player"+i] = {name: "player"+i, budget: budget, hand: [], handValue: 0, betAmt: 0};
-            this.players[i] = {name: "player"+i, budget: budget, hand: [], handValue: 0, betAmt: 0, blackjack: false};
-        }
-        return this.players;
-    }
-}
+// var playerSettings = {
+//     players: [],
+//     setPlayers: function(numPlayer, budget) {
+//         for (var i = 0; i < numPlayer; i++) {
+//             this.players[i] = {name: "player"+i, budget: budget, hand: [], handValue: 0, betAmt: 0, blackjack: false};
+//         }
+//         return this.players;
+//     }
+// }
 // console.log(playerSettings.setPlayers(3,1000));
 
 
@@ -88,29 +87,27 @@ var blackJack = {
     },
     cards: decks.shuffled(),
 
-    // player setup
+    // table setup
     numPlayer: 3,
     playerBudget: 1000,
-
-
-
-
-
-
-
-
-    dealer: {name: "dealer", hand: [], handValue: 0, blackjack: false},
-    table: playerSettings.setPlayers(3,1000),
-    // players: playerSettings.setPlayers(this.numPlayer,this.playerBudget),
-    setTable: function() {
-        this.table.push(this.dealer);
+    table: [],
+    setPlayers: function() {
+        for (var i = 0; i < this.numPlayer; i++) {
+            this.table[i] = {name: "player"+i, budget: this.playerBudget, hand: [], handValue: 0, betAmt: 0, blackjack: false};
+        }
         return this.table;
     },
-    // ( used under deal() )
-    burnFirstCard: function() {
-        this.cards.shift();
+    dealer: {name: "dealer", hand: [], handValue: 0, blackjack: false},
+
+    setTable: function() {
+        this.setPlayers().push(this.dealer);
+        return this.table;
     },
 
+    // dealing 2 cards
+    burnFirstCard: function() {     // ( used under deal() )
+        this.cards.shift();
+    },
     deal: function() {
         // if cards.length <= 52, reshuffle
         if (this.cards.length <= 52) {
@@ -121,7 +118,7 @@ var blackJack = {
             this.burnFirstCard();
         }
 
-        //*** this would need setTimeOut to implement motion  
+        //*** this would need setTimeout motion implemented  
         // Dealing first cards
         for (var i = 0; i < this.table.length; i++) {
             this.table[i].hand.push(this.cards.shift());
@@ -138,16 +135,15 @@ var blackJack = {
                 this.table[i].blackjack = true;
             }
         }
-        // set dealer blackjack
-        if (this.dealer.handValue === 21) {
-            this.dealer.blackjack = true;
-        }
+
         // Dealer's second card face down
         // if dealer's first card is Ace, option to insurance
         // Dealer's second card face up after all playerAction
     },
     bust: function () {
-
+        if (this.table[playerAction.currentPlayer].handValue > 21) {
+            
+        }
     },
     payOut: function() {
         if (this.table[playerAction.currentPlayer] !== this.table[table.length - 1]) {
@@ -194,19 +190,18 @@ var playerAction = {
 // Game Setup
 console.log(blackJack.cards.length);
 blackJack.setTable();
-blackJack.table;
 // Play Game
 var play = function () {
     blackJack.deal();
-    // console.log(blackJack.table);
     console.log(blackJack.cards.length);
-}
+};
 
 play();
 console.log(blackJack.table);
 
 
-
+// blackJack.setPlayers();
+// console.log(blackJack.players);
 //     function deal() {
 //         for (var i = 0; i < $(".hands_area").length; i++) {
 //             dealtCard = shuffledDeck.shift()[0];
