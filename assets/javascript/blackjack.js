@@ -92,16 +92,11 @@ var blackJack = {
     numPlayer: 3,
     playerBudget: 1000,
 
-
-
-
-
-
-
-
+//function hoisting
     dealer: {name: "dealer", hand: [], handValue: 0, blackjack: false},
     table: playerSettings.setPlayers(3,1000),
-    // players: playerSettings.setPlayers(this.numPlayer,this.playerBudget),
+    // table: playerSettings.setPlayers(this.numPlayer,this.playerBudget),
+    // table: playerSettings.setPlayers(blackJack.numPlayer,blackJack.playerBudget),
     setTable: function() {
         this.table.push(this.dealer);
         return this.table;
@@ -160,6 +155,9 @@ var blackJack = {
         }
     }
 }
+
+
+
 
 var playerAction = {
     currentPlayer: 0,

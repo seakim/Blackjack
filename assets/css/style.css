@@ -1,5 +1,6 @@
 body {
-    /* background: gray; */
+    /* background: rgba(48, 84, 46, 1); */
+    background: rgba(70, 119, 67, 1);
 }
 .deck {
     display: inline-block;
@@ -12,187 +13,224 @@ body {
     margin: 10px;
     float:left;
 }
-.cards {
-    overflow: hidden;
-    width: 84px;
-    height: 110px;
-    margin: 10px;
-    float:left;
-}
-#test {
+
+
+.deal-btn {
     position: absolute;
-    z-index: 5;
+    top: 38%;
+    left: 57%;
+    z-index: 10;
+}
+
+.hands_container {
+    text-align: center;
+    background: rgba(20, 20, 20, 0.9);
+    color: rgba(200, 200, 200, 0.9);
+}
+.dealer_area {
+    position:absolute;
+    top: 20%;
+    left: 35%;
+    width: 30%;
+}
+.player0_area {
+    position:absolute;
+    top: 70%;
+    left: 2.5%;
+    width: 30%;
+}
+.player1_area {
+    position:absolute;
+    top: 70%;
+    left: 35%;
+    width: 30%;
+}
+.player2_area {
+    position:absolute;
+    top: 70%;
+    right: 2.5%;
+    width: 30%;
+
 }
 
 
-/* sprites does not work*/
-#home {
-    width: 46px;
-    height: 44px;
-    background: url("assets/images/deck.png") 0 0;
+.card-img {
+    background: url(../images/deck.png) no-repeat;
+    display: block;
+    padding: 53px 39px;
 }
-#next {
-    width: 43px;
-    height: 44px;
-    background: url(assets/images/deck.png) -91px 0;
-}
-/* sprites end */
+
+.hands {
+    list-style: none;
+    margin: 10px;
+    background: red;
+    display: block;
+    float: left;
+} 
 
 /* card img */
-#c1 {
-    transform: translate(-46px, 0);
+#card-cover {
+    background: url(../images/card-cover.jpg) no-repeat;
+    display: block;
+    padding: 53px 40.2px;
+    background-size: contain;
+    background-position: center;
+    /* background-repeat: no-repeat; */
 }
-#c2 {
-    transform: translate(-136px,0);
+#CA {
+    background-position: -2px -2px;
 }
-#c3 {
-    transform: translate(-226px,0);
+#C2 {
+    background-position: -93px -2px;
 }
-#c4 {
-    transform: translate(-316px,0);
+#C3 {
+    background-position: -183px -2px;
 }
-#c5 {
-    transform: translate(-406px,0);
+#C4 {
+    background-position: -273px -2px;
 }
-#c6 {
-    transform: translate(-496px,0);
+#C5 {
+    background-position: -363px -2px;
 }
-#c7 {
-    transform: translate(-587px,0);
+#C6 {
+    background-position: -453px -2px;
 }
-#c8 {
-    transform: translate(-677px,0);
+#C7 {
+    background-position: -544px -2px;
 }
-#c9 {
-    transform: translate(-767px,0);
+#C8 {
+    background-position: -634px -2px;
 }
-#c10 {
-    transform: translate(-857px,0);
+#C9 {
+    background-position: -724px -2px;
 }
-#c11 {
-    transform: translate(-947px,0);
+#C10 {
+    background-position: -814px -2px;
 }
-#c12 {
-    transform: translate(-1037px,0);
+#CJ {
+    background-position: -904px -2px;
 }
-#c13 {
-    transform: translate(-1128px,0);
+#CQ {
+    background-position: -995px -2px;
 }
-#s1 {
-    transform: translate(-46px,-113px);
+#CK {
+    background-position: -1085px -2px;
 }
-#s2 {
-    transform: translate(-136px,-113px);
+#SA {
+    background-position: -2px -115px;
 }
-#s3 {
-    transform: translate(-226px,-113px);
+#S2 {
+    background-position: -93px -115px;
 }
-#s4 {
-    transform: translate(-316px,-113px);
+#S3 {
+    background-position: -183px -115px;
 }
-#s5 {
-    transform: translate(-406px,-113px);
+#S4 {
+    background-position: -273px -115px;
 }
-#s6 {
-    transform: translate(-496px,-113px);
+#S5 {
+    background-position: -363px -115px;
 }
-#s7 {
-    transform: translate(-587px,-113px);
+#S6 {
+    background-position: -453px -115px;
 }
-#s8 {
-    transform: translate(-677px,-113px);
+#S7 {
+    background-position: -544px -115px;
 }
-#s9 {
-    transform: translate(-767px,-113px);
+#S8 {
+    background-position: -634px -115px;
 }
-#s10 {
-    transform: translate(-857px,-113px);
+#S9 {
+    background-position: -724px -115px;
 }
-#s11 {
-    transform: translate(-947px,-113px);
+#S10 {
+    background-position: -814px -115px;
 }
-#s12 {
-    transform: translate(-1037px,-113px);
+#SJ {
+    background-position: -904px -115px;
 }
-#s13 {
-    transform: translate(-1128px,-113px);
+#SQ {
+    background-position: -995px -115px;
 }
-#h1 {
-    transform: translate(-46px,-226px);
+#SK {
+    background-position: -1085px -115px;
 }
-#h2 {
-    transform: translate(-136px,-226px);
+#HA {
+    background-position: -2px -229px;
 }
-#h3 {
-    transform: translate(-226px,-226px);
+#H2 {
+    background-position: -93px -229px;
 }
-#h4 {
-    transform: translate(-316px,-226px);
+#H3 {
+    background-position: -183px -229px;
 }
-#h5 {
-    transform: translate(-406px,-226px);
+#H4 {
+    background-position: -273px -229px;
 }
-#h6 {
-    transform: translate(-496px,-226px);
+#H5 {
+    background-position: -363px -229px;
 }
-#h7 {
-    transform: translate(-587px,-226px);
+#H6 {
+    background-position: -453px -229px;
 }
-#h8 {
-    transform: translate(-677px,-226px);
+#H7 {
+    background-position: -544px -229px;
 }
-#h9 {
-    transform: translate(-767px,-226px);
+#H8 {
+    background-position: -634px -229px;
 }
-#h10 {
-    transform: translate(-857px,-226px);
+#H9 {
+    background-position: -724px -229px;
 }
-#h11 {
-    transform: translate(-947px,-226px);
+#H10 {
+    background-position: -814px -229px;
 }
-#h12 {
-    transform: translate(-1037px,-226px);
+#HJ {
+    background-position: -904px -229px;
 }
-#h13 {
-    transform: translate(-1128px,-226px);
+#HQ {
+    background-position: -995px -229px;
 }
-#d1 {
-    transform: translate(-46px,-340px);
+#HK {
+    background-position: -1085px -229px;
 }
-#d2 {
-    transform: translate(-136px,-340px);
+#DA {
+    background-position: -2px -342px;
 }
-#d3 {
-    transform: translate(-226px,-340px);
+#D2 {
+    background-position: -93px -342px;
 }
-#d4 {
-    transform: translate(-316px,-340px);
+#D3 {
+    background-position: -183px -342px;
 }
-#d5 {
-    transform: translate(-406px,-340px);
+#D4 {
+    background-position: -273px -342px;
 }
-#d6 {
-    transform: translate(-496px,-340px);
+#D5 {
+    background-position: -363px -342px;
 }
-#d7 {
-    transform: translate(-587px,-340px);
+#D6 {
+    background-position: -453px -342px;
 }
-#d8 {
-    transform: translate(-677px,-340px);
+#D7 {
+    background-position: -544px -342px;
 }
-#d9 {
-    transform: translate(-767px,-340px);
+#D8 {
+    background-position: -634px -342px;
 }
-#d10 {
-    transform: translate(-857px,-340px);
+#D9 {
+    background-position: -724px -342px;
 }
-#d11 {
-    transform: translate(-947px,-340px);
+#D10 {
+    background-position: -814px -342px;
 }
-#d12 {
-    transform: translate(-1037px,-340px);
+#DJ {
+    background-position: -904px -342px;
 }
-#d13 {
-    transform: translate(-1128px,-340px);
+#DQ {
+    background-position: -995px -342px;
+}
+#DK {
+    background-position: -1085px -342px;
 }
 /* card img end */

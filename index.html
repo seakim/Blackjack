@@ -13,190 +13,95 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
         crossorigin="anonymous"></script>
+    <script src="assets/javascript/blackjack.js"></script>
 </head>
 
 <body>
     <div class="container">
         <header>
-            <h1>Blackjack</h1>
+            <h1></h1>
         </header>
 
         <section class="main">
             <div class="deck cards_area">
-                <!-- sprites does not work -->
-                <!-- <img id="home" src="img_trans.gif"><br><br>
-                <img id="next" src="img_trans.gif"> -->
+                <!-- SPRITE CARD IMAGE -->
+                <ul class="sprite">
+                    <li class="hands"><a class="card-img" id="CA"></a></li>
+                    <li class="hands"><a class="card-img" id="C2"></a></li>
+                    <li class="hands"><a class="card-img" id="C3"></a></li>
+                    <li class="hands"><a class="card-img" id="C4"></a></li>
+                    <li class="hands"><a class="card-img" id="C5"></a></li>
+                    <li class="hands"><a class="card-img" id="C6"></a></li>
+                    <li class="hands"><a class="card-img" id="C7"></a></li>
+                    <li class="hands"><a class="card-img" id="C8"></a></li>
+                    <li class="hands"><a class="card-img" id="C9"></a></li>
+                    <li class="hands"><a class="card-img" id="C10"></a></li>
+                    <li class="hands"><a class="card-img" id="CJ"></a></li>
+                    <li class="hands"><a class="card-img" id="CQ"></a></li>
+                    <li class="hands"><a class="card-img" id="CK"></a></li>
+                    <li class="hands"><a class="card-img" id="SA"></a></li>
+                    <li class="hands"><a class="card-img" id="S2"></a></li>
+                    <li class="hands"><a class="card-img" id="S3"></a></li>
+                    <li class="hands"><a class="card-img" id="S4"></a></li>
+                    <li class="hands"><a class="card-img" id="S5"></a></li>
+                    <li class="hands"><a class="card-img" id="S6"></a></li>
+                    <li class="hands"><a class="card-img" id="S7"></a></li>
+                    <li class="hands"><a class="card-img" id="S8"></a></li>
+                    <li class="hands"><a class="card-img" id="S9"></a></li>
+                    <li class="hands"><a class="card-img" id="S10"></a></li>
+                    <li class="hands"><a class="card-img" id="SJ"></a></li>
+                    <li class="hands"><a class="card-img" id="SQ"></a></li>
+                    <li class="hands"><a class="card-img" id="SK"></a></li>
+                    <li class="hands"><a class="card-img" id="HA"></a></li>
+                    <li class="hands"><a class="card-img" id="H2"></a></li>
+                    <li class="hands"><a class="card-img" id="H3"></a></li>
+                    <li class="hands"><a class="card-img" id="H4"></a></li>
+                    <li class="hands"><a class="card-img" id="H5"></a></li>
+                    <li class="hands"><a class="card-img" id="H6"></a></li>
+                    <li class="hands"><a class="card-img" id="H7"></a></li>
+                    <li class="hands"><a class="card-img" id="H8"></a></li>
+                    <li class="hands"><a class="card-img" id="H9"></a></li>
+                    <li class="hands"><a class="card-img" id="H10"></a></li>
+                    <li class="hands"><a class="card-img" id="HJ"></a></li>
+                    <li class="hands"><a class="card-img" id="HQ"></a></li>
+                    <li class="hands"><a class="card-img" id="HK"></a></li>
+                    <li class="hands"><a class="card-img" id="DA"></a></li>
+                    <li class="hands"><a class="card-img" id="D2"></a></li>
+                    <li class="hands"><a class="card-img" id="D3"></a></li>
+                    <li class="hands"><a class="card-img" id="D4"></a></li>
+                    <li class="hands"><a class="card-img" id="D5"></a></li>
+                    <li class="hands"><a class="card-img" id="D6"></a></li>
+                    <li class="hands"><a class="card-img" id="D7"></a></li>
+                    <li class="hands"><a class="card-img" id="D8"></a></li>
+                    <li class="hands"><a class="card-img" id="D9"></a></li>
+                    <li class="hands"><a class="card-img" id="D10"></a></li>
+                    <li class="hands"><a class="card-img" id="DJ"></a></li>
+                    <li class="hands"><a class="card-img" id="DQ"></a></li>
+                    <li class="hands"><a class="card-img" id="DK"></a></li>
+                    <li class="hands"><a id="card-cover"></a></li>
 
-                <!-- card img -->
-                <!-- <div class="hands">
-                    <img id="c1" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="c2" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="c3" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="c4" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="c5" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="c6" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="c7" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="c8" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="c9" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="c10" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="cj" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="cq" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="ck" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="s1" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="s2" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="s3" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="s4" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="s5" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="s6" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="s7" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="s8" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="s9" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="s10" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="sj" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="sq" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="sk" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="h1" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="h2" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="h3" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="h4" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="h5" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="h6" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="h7" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="h8" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="h9" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="h10" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="hj" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="hq" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="hk" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="d1" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="d2" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="d3" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="d4" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="d5" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="d6" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="d7" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="d8" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="d9" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="d10" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="dj" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="dq" src="assets/images/deck.png" />
-                </div>
-                <div class="hands">
-                    <img id="dk" src="assets/images/deck.png" />
-                </div> -->
-                <button class="deal">Deal</button>
+                </ul>
+                <!-- SPRITE CARD IMAGE ENDS -->
 
-                <div class="card player1_area">
+
+                <button type="button" class="btn btn-dark deal-btn">Deal</button>
+
+                <div class="card hands_container player0_area">
+                    <h2>Player0</h2>
+                    <div class="player0 hands_area" value="0">
+                    </div>
+                </div>
+                <div class="card hands_container player1_area">
                     <h2>Player1</h2>
                     <div class="player1 hands_area" value="0">
                     </div>
                 </div>
-                <div class="card player2_area">
+                <div class="card hands_container player2_area">
                     <h2>Player2</h2>
                     <div class="player2 hands_area" value="0">
                     </div>
                 </div>
-                <div class="card dealer_area">
+                <div class="card hands_container dealer_area">
                     <h2>Dealer</h2>
                     <div class="dealer hands_area" value="0">
                     </div>
@@ -206,7 +111,6 @@
 
         <footer>
         </footer>
-        <script src="assets/javascript/setup.js"></script>
         </div>
 </body>
 
