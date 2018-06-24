@@ -1,6 +1,11 @@
 body {
-    /* background: rgba(48, 84, 46, 1); */
-    background: rgba(70, 119, 67, 1);
+    background: url(../images/blackjack-bg-2.jpg) no-repeat;
+
+    height: 100vh;
+    background-size: cover;
+
+
+
 }
 .deck {
     display: inline-block;
@@ -9,10 +14,11 @@ body {
 .hands_area {
     overflow: hidden;
     width: auto;
-    height: 130px;
+    height: 105px;
     margin: 10px;
     float:left;
 }
+/* padding: 53px 39px; */
 
 
 .deal-btn {
@@ -22,15 +28,34 @@ body {
     z-index: 10;
 }
 
-.hands_container {
+.player_container {
     text-align: center;
-    background: rgba(20, 20, 20, 0.9);
+    background: rgba(20, 20, 20, 0.6);
     color: rgba(200, 200, 200, 0.9);
+    /* height: 25% for now */
+    height: 25%;
+}
+
+/* player area */
+.burned_card {
+    position: absolute;
+    top: 30%;
+    left: 45%;
+    background: rgba(20, 20, 20, 1);
+}
+.burned_card div {
+    position: absolute;
+    top: 30%;
+    color: rgba(200, 200, 200, 0.9);
+    background: rgba(20, 20, 20, 0.7);
+    font-weight: bold;
+    text-align: center;
+
 }
 .dealer_area {
     position:absolute;
     top: 20%;
-    left: 35%;
+    right: 35%;
     width: 30%;
 }
 .player0_area {
@@ -53,7 +78,6 @@ body {
 
 }
 
-
 .card-img {
     background: url(../images/deck.png) no-repeat;
     display: block;
@@ -62,19 +86,20 @@ body {
 
 .hands {
     list-style: none;
-    margin: 10px;
-    background: red;
+    margin: auto;
+    /* background: red; */
     display: block;
     float: left;
 } 
 
 /* card img */
+
 #card-cover {
     background: url(../images/card-cover.jpg) no-repeat;
     display: block;
     padding: 53px 40.2px;
     background-size: contain;
-    background-position: center;
+    /* background-position: center; */
     /* background-repeat: no-repeat; */
 }
 #CA {

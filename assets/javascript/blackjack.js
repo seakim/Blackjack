@@ -3,7 +3,76 @@
 //
 // BlackJack
 
+/////
+// timer component for time limit on betting and moving forward
+var timerTemp = {
+    clockRunning: false,
+    intervalId: null,
+    container: null,
+    time: null,
+    countCallback: null,
+    setContainer: function(number) {
+        this.container = $('#timer');
+        this.time = parseInt(number);
+    },
+    setCountCallback(countCallback){
+        if(typeof countCallback !== 'undefined'){
+            this.countCallback = countCallback;
+        }
+    },
+    reset: function(number) {
+        clearInterval(this.intervalId);
+        this.clockRunning = false;
+        this.time = parseInt(number);
+    },
+    start: function () {
+        if (!this.clockRunning) {
+            this.intervalId = setInterval(this.count.bind(this), 1000);
+            this.clockRunning = true;
+        }
+    },
+    stop: function () {
+        clearInterval(this.intervalId);
+        this.clockRunning = false;
+    },
+    count: function () {
+        this.time--;
+        var converted = this.timeConverter(this.time);
+        this.container.html(converted);
+        if (this.time <= 0) {
+            this.stop();
+            if(typeof this.countCallback !== 'undefined'){
+                this.countCallback();
+            }
+        }
+    },
+    timeConverter: function (t) {
+        var minutes = Math.floor(t / 60);
+        var seconds = t - (minutes * 60);
 
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        if (minutes === 0) {
+            minutes = "00";
+        } else if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        return minutes + ":" + seconds;
+    }
+}
+// set 15 second timer
+var timer = $.extend(true, {}, timerTemp);
+timer.setContainer(15);
+
+// running code for timer
+// timerReg.reset(120);
+// timerReg.start();
+// timerReg.setCountCallback(this.showScoreReg.bind(this));
+
+
+/////
+// deck component to have 6 shuffled deck ready to play
 var decks = {
     numOfDecks: 6,  //total number of decks
     // Set k decks (52 * k cards); deck of [x,y] * k
@@ -21,12 +90,11 @@ var decks = {
         }
         return unshuffledDeck;
     },
+    // *** check for better shuffling algorithm ***
     shuffled: function () {
-    // shuffledDeck = [ [  [x1,y1] ],[ [x2,y2] ],[ [x3,y3] ] ... [ [x,y] ] ]
-
+        // shuffledDeck = [ [  [x1,y1] ],[ [x2,y2] ],[ [x3,y3] ] ... [ [x,y] ] ]
         var shuffledDeck = this.unshuffled();
-
-        for (var i = shuffledDeck.length - 1; i > 0; i--) {
+        for (var i = (shuffledDeck.length - 1) ; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
             var temp = shuffledDeck[i];
             shuffledDeck[i] = shuffledDeck[j];
@@ -41,9 +109,8 @@ var decks = {
             diamond = 0,
             club = 0,
             testingDeck = this.shuffled();
-            console.log(testingDeck[1][1]);
 
-        for (var i = 0; i < (testingDeck.length * (Math.floor(Math.random() * 3) + 1)); i++) {
+        for (var i = 0; i < testingDeck.length; i++) {
             if (testingDeck[i][0] === 0) {
                 spade += testingDeck[i][1];
             } else if (testingDeck[i][0] === 1) {
@@ -58,179 +125,212 @@ var decks = {
     }
 
 }
+// running code for deck shuffling and testing
 // console.log(decks.shuffled());
 // decks.testing();
 
 
-var playerSettings = {
-    players: [],
-    setPlayers: function(numPlayer, budget) {
-        for (var i = 0; i < numPlayer; i++) {
-            // this.players["player"+i] = {name: "player"+i, budget: budget, hand: [], handValue: 0, betAmt: 0};
-            this.players[i] = {name: "player"+i, budget: budget, hand: [], handValue: 0, betAmt: 0, blackjack: false};
-        }
-        return this.players;
-    }
-}
-// console.log(playerSettings.setPlayers(3,1000));
+
+$(document).ready(function () {
 
 
-var blackJack = {
-    // card setup
-    getCardValue: function (arr) {
-        if (arr[1] === 0) {
-            return 11;
-         } else if (arr[1] < 10) {
-             return arr[1] + 1;
-         } else {
-            return 10;
-         }
-    },
-    cards: decks.shuffled(),
-
-    // player setup
-    numPlayer: 3,
-    playerBudget: 1000,
-
-//function hoisting
-    dealer: {name: "dealer", hand: [], handValue: 0, blackjack: false},
-    table: playerSettings.setPlayers(3,1000),
-    // table: playerSettings.setPlayers(this.numPlayer,this.playerBudget),
-    // table: playerSettings.setPlayers(blackJack.numPlayer,blackJack.playerBudget),
-    setTable: function() {
-        this.table.push(this.dealer);
-        return this.table;
-    },
-    // ( used under deal() )
-    burnFirstCard: function() {
-        this.cards.shift();
-    },
-
-    deal: function() {
-        // if cards.length <= 52, reshuffle
-        if (this.cards.length <= 52) {
-            this.cards = decks.shuffled();
-        }
-        // if new tray, burn the first card
-        if (this.cards.length === 52 * decks.numOfDecks) {
-            this.burnFirstCard();
-        }
-
-        //*** this would need setTimeOut to implement motion  
-        // Dealing first cards
-        for (var i = 0; i < this.table.length; i++) {
-            this.table[i].hand.push(this.cards.shift());
-            this.table[i].handValue += this.getCardValue(this.table[i].hand[0]);
-        }
-        // Dealing second cards
-        for (var i = 0; i < this.table.length; i++) {
-            this.table[i].hand.push(this.cards.shift());
-            this.table[i].handValue += this.getCardValue(this.table[i].hand[1]);
-        //***
-
-            // set blackjack condition
-            if (this.table[i].handValue === 21) {
-                this.table[i].blackjack = true;
-            }
-        }
-        // set dealer blackjack
-        if (this.dealer.handValue === 21) {
-            this.dealer.blackjack = true;
-        }
-        // Dealer's second card face down
-        // if dealer's first card is Ace, option to insurance
-        // Dealer's second card face up after all playerAction
-    },
-    bust: function () {
-
-    },
-    payOut: function() {
-        if (this.table[playerAction.currentPlayer] !== this.table[table.length - 1]) {
-            if (this.table[playerAction.currentPlayer].blackjack === true) {
-                this.table[playerAction.currentPlayer].budget += this.table[playerAction.currentPlayer].betAmt * 2.5;
-
+    /////
+    // game setup
+    var dealerAction = {
+        // calculating card value
+        getCardValue: function (arr) {
+            if (arr[1] === 0) {
+                return 11;
+            } else if (arr[1] < 10) {
+                return arr[1] + 1;
             } else {
-                this.table[playerAction.currentPlayer].budget += this.table[playerAction.currentPlayer].betAmt * 2;
+                return 10;
+            }
+        },
+        // cards & dealingMotion
+        cards: decks.shuffled(),
+        dealingMotionSpeed: 250,
+
+        // table setup
+        numPlayer: 3,
+        playerBudget: 1000,
+        table: [],
+        dealer: { name: "dealer", hand: [], handValue: 0, blackjack: false },
+
+        setPlayerContainer: function () {
+            for (var i = 0; i < this.numPlayer; i++) {
+                var player_area_container = '<div class="card player_container player' + i + '_area"><h2>Player' + i + '</h2>'
+                var hands_area_container = '<div class="player' + i + ' hands_area" value="0"></div></div>'
+                player_area_container += hands_area_container;
+                $('.play-area').append(player_area_container);
+            }
+            var dealer_area_container = '<div class="card player_container dealer_area"><h2>Dealer</h2><div class="dealer hands_area" value="0"></div></div>'
+            $('.play-area').append(dealer_area_container);
+        },
+        setPlayers: function () {
+            for (var i = 0; i < this.numPlayer; i++) {
+                this.table[i] = { name: "player" + i, budget: this.playerBudget, hand: [], handValue: 0, betAmt: 0, blackjack: false };
+            }
+
+            return this.table;
+        },
+        setTable: function () {
+            this.setPlayers().push(this.dealer);
+            return this.table;
+        },
+
+        // display cards
+        // <li class="hands"><a class="card-img" id="C7"></a></li>
+        cardContainer: function (arr) {
+            var card_container = '<li class="hands"><a class="card-img" id="';
+            if (arr[0] === 0) {
+                card_container += "C";
+            } else if (arr[0] === 1) {
+                card_container +="S";
+            } else if (arr[0] === 2) {
+                card_container +="H";
+            } else if (arr[0] === 3) {
+                card_container += "D";
+            }
+
+            if (arr[1] === 0) {
+                card_container += "A";
+            } else if (arr[1] === 10) {
+                card_container +="J";
+            } else if (arr[1] === 11) {
+                card_container +="Q";
+            } else if (arr[1] === 12) {
+                card_container += "K";
+            } else {
+                card_container += (arr[1] + 1);
+            }
+            card_container += '"></a></li>';
+            return card_container;
+        },
+        deal: function () {
+            // if cards.length <= 52, reshuffle
+            if (this.cards.length <= 52) {
+                this.cards = decks.shuffled();
+            }
+            // deal to cards to each player
+            for (var k = 0; k < 2; k++) {
+                for (var i = 0; i < this.table.length; i++) {
+                    var dealtCard = this.cards.shift();
+                    
+                    // dealing motion with setTimeout
+                    var card_container = this.cardContainer(dealtCard);
+                    // if !(k === 1 && i === this.table.length - 1)
+                    if ((k !== 1) || (i !== this.table.length - 1)) {
+                        setTimeout(function(i, card_container) {
+                            $(".hands_area:eq(" + i + ")").append(card_container);
+                        }, this.dealingMotionSpeed * i + (k * this.dealingMotionSpeed * this.table.length), i, card_container);
+                    }
+
+                    // pushing cards to players' hands & calculate handValue
+                    this.table[i].hand.push(dealtCard);
+                    this.table[i].handValue += this.getCardValue(this.table[i].hand[k]);
+
+                    // setting blackjack condition
+                    if (this.table[i].handValue === 21) {
+                        this.table[i].blackjack = true;
+                    }
+                }
+            }
+            // Dealer's second card face down
+            var card_cover = '<li class="hands"><a id="card-cover"></a>';
+            setTimeout(function() {
+                $(".hands_area:eq(" + (dealerAction.table.length - 1) + ")").append(card_cover);
+            }, (this.dealingMotionSpeed * (2 * dealerAction.table.length) - this.dealingMotionSpeed));
+
+            //*** if dealer's first card is Ace, option to insurance
+        },
+        // Dealer's second card face up after all playerAction
+        showSecondCard: function () {
+            $('.hands_area').on('click', function () {
+                $('#card-cover').hide();    // not working
+                $(".hands_area:eq(" + (dealerAction.table.length - 1) + ")").append(dealerAction.cardContainer(dealerAction.table[3].hand[1]));
+                // console.log(dealerAction.cardContainer(dealerAction.table[3].hand[1]));
+            })
+        },
+        burnFirstCard: function () {     // ( used under deal() )
+            var burned = this.cards.shift();
+            // var burnedCard_container = '<div class="card player_container burned_card"><div class="hands_area"></div></div>'
+            var burnedCard_container = '<div class="burned_card"><div>Burning 1st Card<div></div>'
+            $('.play-area').append(burnedCard_container);
+            $(".burned_card").append(this.cardContainer(burned));
+            setTimeout(function () {
+                $(".burned_card").hide();
+            },1000);
+        }
+    }
+
+
+    /////
+    // Player Action after two cards are dealt
+    var playerAction = {
+        currentPlayer: 0,
+        bet: function () {
+            budget -= betAmt;
+        },
+        insurance: function () {
+            // if player handValue !== 21,
+            // when dealer's faceCard === 'A', insurance is optional with (1/4) of betting amount
+        },
+        doubleDown: function () {
+            // player can hit Only once
+            budget -= betAmt;
+            betAmt *= 2;
+            hit();
+        },
+        split: function () {
+
+        },
+        hit: function () {
+            dealerAction.table[this.currentPlayer].hand.push(this.cards.shift());
+            dealerAction.table[this.currentPlayer].handValue += getCardValue.value(this.table[i].hand[0]);
+        },
+        stand: function () {
+            if (this.currentPlayer < dealerAction.table.length) {
+                this.currentPlayer = (this.currentPlayer + 1);
+            }
+        },
+        bust: function () {
+            if (this.table[playerAction.currentPlayer].handValue > 21) {
+
+            }
+        },
+        payOut: function () {
+            if (this.table[playerAction.currentPlayer] !== this.table[table.length - 1]) {
+                if (this.table[playerAction.currentPlayer].blackjack === true) {
+                    this.table[playerAction.currentPlayer].budget += this.table[playerAction.currentPlayer].betAmt * 2.5;
+
+                } else {
+                    this.table[playerAction.currentPlayer].budget += this.table[playerAction.currentPlayer].betAmt * 2;
+                }
             }
         }
     }
-}
 
 
-
-
-var playerAction = {
-    currentPlayer: 0,
-    bet: function() {
-        budget -= betAmt;
-    },
-    insurance: function() {
-        // if player handValue !== 21,
-            // when dealer's faceCard === 'A', insurance is optional with (1/4) of betting amount
-    },
-    doubleDown: function() {
-        // player can hit Only once
-        budget -= betAmt;
-        betAmt *= 2;
-        hit();
-    },
-    split: function() {
-
-    },
-    hit: function() {
-        blackJack.table[this.currentPlayer].hand.push(this.cards.shift());
-        blackJack.table[this.currentPlayer].handValue += getCardValue.value(this.table[i].hand[0]);
-    },
-    stand: function() {
-        if (this.currentPlayer < blackJack.table.length) {
-            this.currentPlayer = (this.currentPlayer + 1);
+    // Game Setup
+    console.log(dealerAction.cards.length);
+    dealerAction.setPlayerContainer();
+    dealerAction.setTable();
+    // Play Game
+    var play = function () {
+        // if new tray, burn the first card
+        if (dealerAction.cards.length === 52 * decks.numOfDecks) {
+            dealerAction.burnFirstCard();
         }
-    }
-}
+        setTimeout( function () {
+            dealerAction.deal();
+        },2000)
+    };
 
-
-// Game Setup
-console.log(blackJack.cards.length);
-blackJack.setTable();
-blackJack.table;
-// Play Game
-var play = function () {
-    blackJack.deal();
-    // console.log(blackJack.table);
-    console.log(blackJack.cards.length);
-}
-
-play();
-console.log(blackJack.table);
+    play();
+    console.log(dealerAction.table);
 
 
 
-//     function deal() {
-//         for (var i = 0; i < $(".hands_area").length; i++) {
-//             dealtCard = shuffledDeck.shift()[0];
-//             // display cards
-//             var cardH = "<div class='cards'><img id='"
-//             if (dealtCard[1] === 0) {
-//                 cardH += "c";
-//             } else if (dealtCard[1] === 1) {
-//                 cardH +="s";
-//             } else if (dealtCard[1] === 2) {
-//                 cardH +="h";
-//             } else if (dealtCard[1] === 3) {
-//                 cardH += "d";
-//             }
-//             cardH += (dealtCard[0] + 1);
-//             cardH += "' src='assets/images/deck.png' /></div>";
-//             console.log(cardH);
-//             $(".hands_area:eq(" + i + ")").delay(2000).append(cardH);
-//         }
-//     }
-    
 
-//         // <div class='card1 cards'>
-//         //     <img id="d13" src="assets/images/deck.png" />
-//         // </div>
-//         // deal first card
-
-
-// });
+});
